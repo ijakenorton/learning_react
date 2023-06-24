@@ -1,13 +1,16 @@
-import Listgroup from "./components/ListGroup"
-
+import Alert from "./components/Alert";
+import Button from "./components/Button";
 function App() {
-  var items = ["New York", "Wellington", "Dunedin"];
-
   return (
-    <div className="App">
-      <Listgroup items={items} heading="Cities"/>
+    <div>
+      <Alert>
+        Hello <span>WOrld</span>
+      </Alert>
+      <Button color="secondary" onClick={() => console.log("Clicked")}>
+        Click me
+      </Button>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
