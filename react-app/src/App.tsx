@@ -1,14 +1,11 @@
-import Alert from "./components/Alert";
-import Button from "./components/Button";
+import { useState } from "react";
+import Expand from "./components/Expand";
+import Form from "./components/Form";
+import ShoppingForm from './components/ShoppingForm'
 function App() {
   return (
     <div>
-      <Alert>
-        Hello <span>WOrld</span>
-      </Alert>
-      <Button color="secondary" onClick={() => console.log("Clicked")}>
-        Click me
-      </Button>
+      <ShoppingForm></ShoppingForm>
     </div>
   );
 }
