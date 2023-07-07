@@ -28,23 +28,34 @@ const ShoppingForm = () => {
   ]);
 
   const [isEmpty, setEmpty] = useState(true);
+  const [filter, setFilter] = useState("All");
 
   const onSubmit = (data: FieldValues) => {
+    const newItems = [...items];
     if (isEmpty) {
-      items[0] = {
+      newItems[0] = {
         description: data.description,
         amount: data.amount,
         category: data.category,
       };
     } else {
-      items.push({
+      newItems.push({
         description: data.description,
         amount: data.amount,
         category: data.category,
       });
     }
-    setItems(items);
+    setItems(newItems);
     setEmpty(false);
+  };
+
+  const handleDelete = (index: number) => {
+    const newItems = [...items];
+    newItems.splice(index, 1);
+    setItems(newItems);
+    if (newItems.length === 0) {
+      setEmpty(true);
+    }
   };
 
   return (
@@ -86,7 +97,7 @@ const ShoppingForm = () => {
           <select
             {...register("category")}
             className="form-select"
-            aria-label="Default select example"
+            aria-label="category select"
           >
             <option value="Groceries">Groceries</option>
             <option value="Utilities">Utilities</option>
@@ -103,22 +114,46 @@ const ShoppingForm = () => {
       </form>
       {!isEmpty && (
         <div>
+          <label className="form-label">Category</label>
+          <select
+            value={filter}
+            onChange={(event) => setFilter(event.target.value)}
+            id="filter"
+            className="form-select"
+            aria-label="Select filter"
+          >
+            <option value="All">All categories</option>
+            <option value="Groceries">Groceries</option>
+            <option value="Utilities">Utilities</option>
+            <option value="Entertainment">Entertainment</option>
+          </select>
           <table className="table">
             <thead>
               <tr>
                 <th scope="col">Description</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Category</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
-              {items.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.description}</td>
-                  <td>{item.amount}</td>
-                  <td>{item.category}</td>
-                </tr>
-              ))}
+              {items
+                .filter((item) => filter === "All" || item.category === filter)
+                .map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.description}</td>
+                    <td>{item.amount}</td>
+                    <td>{item.category}</td>
+                    <button
+                      onClick={() => handleDelete(index)}
+                      type="button"
+                      className="btn btn-outline-danger"
+                    >
+                      {index}
+                      Delete
+                    </button>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
